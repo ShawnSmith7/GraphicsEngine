@@ -24,3 +24,7 @@ FetchContent_MakeAvailable(glfw glm)
 add_executable(GraphicsEngine src/main.cpp)
 
 target_link_libraries(GraphicsEngine PUBLIC opengl32 glad glfw glm)
+
+target_compile_definitions(GraphicsEngine PRIVATE
+    SOURCE_DIR="${CMAKE_SOURCE_DIR}/src/"
+)
