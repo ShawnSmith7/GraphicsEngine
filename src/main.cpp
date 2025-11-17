@@ -5,9 +5,9 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
-//#include <glm/glm.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-//#include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
 #include <string>
@@ -17,14 +17,18 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
+unsigned int screenWidth = 800;
+unsigned int screenHeight = 600;
+float aspectRatio = (float)screenWidth / screenHeight;
+
 int main() {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-    if (window == NULL) {
+    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", 0, 0);
+    if (!window) {
         std::cerr << "Failed to create GLFW window\n";
         glfwTerminate();
         return -1;
@@ -45,9 +49,10 @@ int main() {
     glBindVertexArray(VAO);
     
     float vertices[] = {
-        0.0f, 0.5f,
-        -0.5f, -0.5f,
-        0.5f, -0.5f
+        100.0f, 100.0f, 1.0f, 0.0f, 0.0f,
+        100.0f, 200.0f, 0.0f, 1.0f, 0.0f,
+        200.0f, 200.0f, 0.0f, 0.0f, 1.0f,
+        200.0f, 100.0f, 1.0f, 1.0f, 1.0f
     };
 
     unsigned int VBO;
@@ -55,8 +60,21 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     std::string vertexShaderFilePath = std::string(SOURCE_DIR) + "vertex.shader";
     std::ifstream vertexShaderFile(vertexShaderFilePath);
@@ -71,14 +89,14 @@ int main() {
     const char *vertexShaderSource = vertexShaderString.c_str();
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, 0);
     glCompileShader(vertexShader);
 
     int  success;
     char infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if(!success) {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(vertexShader, 512, 0, infoLog);
         std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << '\n';
         return 1;
     }
@@ -96,12 +114,12 @@ int main() {
     const char *fragmentShaderSource = fragmentShaderString.c_str();
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, 0);
     glCompileShader(fragmentShader);
 
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if(!success) {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(fragmentShader, 512, 0, infoLog);
         std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << '\n';
         return 1;
     }
@@ -113,7 +131,7 @@ int main() {
 
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if(!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        glGetProgramInfoLog(shaderProgram, 512, 0, infoLog);
         std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << '\n';
         return 1;
     }
@@ -125,9 +143,12 @@ int main() {
     while(!glfwWindowShouldClose(window)) {
         processInput(window);
         
+        glm::mat4 transform = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f, -1.0f, 1.0f);
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform"), 1, GL_FALSE, glm::value_ptr(transform));
+
         glClear(GL_COLOR_BUFFER_BIT);
         
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();    
@@ -138,6 +159,10 @@ int main() {
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    screenWidth = width;
+    screenHeight = height;
+    aspectRatio = (float)screenWidth / screenHeight;
+    
     glViewport(0, 0, width, height);
 }
 
