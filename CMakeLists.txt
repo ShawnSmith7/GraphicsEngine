@@ -17,7 +17,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glfw glm)
 
-add_library(GraphicsEngineLib src/ShaderProgram.cpp)
+add_library(GraphicsEngineLib src/ShaderProgram.cpp src/VertexArray.cpp src/VertexBuffer.cpp src/IndexBuffer.cpp)
 target_include_directories(GraphicsEngineLib PUBLIC src)
 target_link_libraries(GraphicsEngineLib PUBLIC opengl32 glad glfw glm)
 
