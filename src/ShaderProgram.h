@@ -18,8 +18,9 @@
 class ShaderProgram {
     public:
         ShaderProgram(const std::string& vertexShaderFileName, const std::string& fragmentShaderFileName);
-        void use() const;
+        ~ShaderProgram();
 
+        void use() const;
         void setMat4(const char *name, const glm::mat4& value);
     private:
         unsigned int ID;

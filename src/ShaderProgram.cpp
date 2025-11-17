@@ -22,6 +22,10 @@ ShaderProgram::ShaderProgram(const std::string& vertexShaderFileName, const std:
     }
 }
 
+ShaderProgram::~ShaderProgram() {
+    glDeleteProgram(ID);
+}
+
 void ShaderProgram::use() const {
     glUseProgram(ID);
 }
