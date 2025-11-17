@@ -21,6 +21,8 @@ class ShaderProgram {
         ~ShaderProgram();
 
         void use() const;
+        void unuse() const;
+
         void setMat4(const char *name, const glm::mat4& value);
     private:
         unsigned int ID;

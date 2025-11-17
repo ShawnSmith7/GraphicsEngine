@@ -30,6 +30,10 @@ void ShaderProgram::use() const {
     glUseProgram(ID);
 }
 
+void ShaderProgram::unuse() const {
+    glUseProgram(0);
+}
+
 void ShaderProgram::setMat4(const char *name, const glm::mat4& value) {
     glUniformMatrix4fv(glGetUniformLocation(ID, "transform"), 1, GL_FALSE, glm::value_ptr(value));
 }
