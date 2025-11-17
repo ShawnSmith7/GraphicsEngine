@@ -21,10 +21,10 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(glfw glm)
 
-add_executable(GraphicsEngine src/main.cpp)
+add_executable(GraphicsEngine src/main.cpp src/ShaderProgram.cpp)
 
 target_link_libraries(GraphicsEngine PUBLIC opengl32 glad glfw glm)
 
 target_compile_definitions(GraphicsEngine PRIVATE
-    SOURCE_DIR="${CMAKE_SOURCE_DIR}/src/"
+    SRC_DIR="${CMAKE_SOURCE_DIR}/src/"
 )

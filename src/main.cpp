@@ -1,18 +1,7 @@
-#ifndef SOURCE_DIR
-#define SOURCE_DIR "."
-#endif
-
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
+#include "ShaderProgram.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -76,67 +65,8 @@ int main() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    std::string vertexShaderFilePath = std::string(SOURCE_DIR) + "vertex.shader";
-    std::ifstream vertexShaderFile(vertexShaderFilePath);
-    if (!vertexShaderFile.is_open()) {
-        std::cerr << "Failed to open " << vertexShaderFilePath << '\n';
-        return 1;
-    }
-
-    std::ostringstream vertexShaderBuffer;
-    vertexShaderBuffer << vertexShaderFile.rdbuf();
-    std::string vertexShaderString = vertexShaderBuffer.str();
-    const char *vertexShaderSource = vertexShaderString.c_str();
-
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, 0);
-    glCompileShader(vertexShader);
-
-    int  success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if(!success) {
-        glGetShaderInfoLog(vertexShader, 512, 0, infoLog);
-        std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << '\n';
-        return 1;
-    }
-
-    std::string fragmentShaderFilePath = std::string(SOURCE_DIR) + "fragment.shader";
-    std::ifstream fragmentShaderFile(fragmentShaderFilePath);
-    if (!fragmentShaderFile.is_open()) {
-        std::cerr << "Failed to open " << fragmentShaderFilePath << '\n';
-        return 1;
-    }
-
-    std::ostringstream fragmentShaderBuffer;
-    fragmentShaderBuffer << fragmentShaderFile.rdbuf();
-    std::string fragmentShaderString = fragmentShaderBuffer.str();
-    const char *fragmentShaderSource = fragmentShaderString.c_str();
-
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, 0);
-    glCompileShader(fragmentShader);
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if(!success) {
-        glGetShaderInfoLog(fragmentShader, 512, 0, infoLog);
-        std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << '\n';
-        return 1;
-    }
-
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if(!success) {
-        glGetProgramInfoLog(shaderProgram, 512, 0, infoLog);
-        std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << '\n';
-        return 1;
-    }
-
-    glUseProgram(shaderProgram);
+    ShaderProgram shaderProgram("vertex.shader", "fragment.shader");
+    shaderProgram.use();
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -144,7 +74,7 @@ int main() {
         processInput(window);
         
         glm::mat4 transform = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f, -1.0f, 1.0f);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform"), 1, GL_FALSE, glm::value_ptr(transform));
+        shaderProgram.setMat4("transform", transform);
 
         glClear(GL_COLOR_BUFFER_BIT);
         
