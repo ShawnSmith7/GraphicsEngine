@@ -54,10 +54,8 @@ int main() {
         2, 3, 0
     };
 
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    IndexBuffer indexBuffer;
+    indexBuffer.setBufferData(indices, GL_STATIC_DRAW);
 
     vertexArray.enableAttribute(0);
     vertexArray.setAttributePointer(0, 2, GL_FLOAT, false, 5 * sizeof(float), 0);
