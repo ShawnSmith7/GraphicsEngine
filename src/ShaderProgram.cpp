@@ -18,7 +18,7 @@ ShaderProgram::ShaderProgram(const std::string& vertexShaderFileName, const std:
     if(!success) {
         glGetProgramInfoLog(ID, 512, 0, infoLog);
         std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << '\n';
-        throw 1;
+        throw -1;
     }
 }
 
@@ -43,7 +43,7 @@ std::string ShaderProgram::srcFileToString(const std::string& fileName) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
         std::cerr << "Failed to open " << filePath << '\n';
-        throw 1;
+        throw -1;
     }
 
     std::ostringstream buffer;
@@ -78,7 +78,7 @@ unsigned int ShaderProgram::compileShader(const GLenum& shaderType, const std::s
         
         glGetShaderInfoLog(shader, 512, 0, infoLog);
         std::cerr << "ERROR::SHADER::" << shaderTypeString << "COMPILATION_FAILED\n" << infoLog << '\n';
-        throw 1;
+        throw -1;
     }
 
     return shader;

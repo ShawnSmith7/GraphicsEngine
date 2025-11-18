@@ -6,6 +6,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
+GLFWwindow* init(unsigned int width, unsigned int height, const char *title);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -14,23 +15,7 @@ unsigned int screenHeight = 600;
 float aspectRatio = (float)screenWidth / screenHeight;
 
 int main() {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "LearnOpenGL", 0, 0);
-    if (!window) {
-        std::cerr << "Failed to create GLFW window\n";
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))    {
-        std::cerr << "Failed to initialize GLAD\n";
-        return -1;
-    }
+    GLFWwindow* window = init(screenWidth, screenHeight, "GraphicsEngine");
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -84,6 +69,28 @@ int main() {
 
     glfwTerminate();
     return 0;
+}
+
+GLFWwindow* init(unsigned int width, unsigned int height, const char *title) {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    GLFWwindow* window = glfwCreateWindow(width, height, title, 0, 0);
+    if (!window) {
+        std::cerr << "Failed to create GLFW window\n";
+        glfwTerminate();
+        throw -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))    {
+        std::cerr << "Failed to initialize GLAD\n";
+        throw -1;
+    }
+
+    return window;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
