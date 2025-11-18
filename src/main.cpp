@@ -46,10 +46,8 @@ int main() {
         200.0f, 100.0f, 1.0f, 1.0f, 1.0f
     };
 
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    VertexBuffer vertexBuffer;
+    vertexBuffer.setBufferData(vertices, GL_STATIC_DRAW);
 
     unsigned int indices[] = {
         0, 1, 2,
