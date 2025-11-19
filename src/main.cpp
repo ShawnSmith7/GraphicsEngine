@@ -46,7 +46,7 @@ int main() {
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    while(!glfwWindowShouldClose(window.get())) {
+    window.setRenderLoopFunc([&]() {
         processInput(window.get());
         
         glm::mat4 transform = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -1.0f, 1.0f);
@@ -55,11 +55,10 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    });
+    window.renderLoop();
 
-        glfwSwapBuffers(window.get());
-        glfwPollEvents();    
-    }
-
+    glfwTerminate();
     return 0;
 }
 

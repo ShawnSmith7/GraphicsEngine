@@ -19,6 +19,7 @@ class Window {
         float getAspectRatio() const;
 
         void setFramebufferSizeCallback(std::function<void(int, int)> callback);
+        void setRenderLoopFunc(std::function<void()> func);
 
         void renderLoop() const;
     private:
@@ -28,6 +29,7 @@ class Window {
         const char *title = "Window";
 
         std::function<void(int, int)> userFramebufferSizeCallback;
+        std::function<void()> userRenderLoopFunc;
 
         void init();
         

@@ -10,7 +10,7 @@ Window::Window(unsigned int width, unsigned int height, const char *title) :
 }
 
 Window::~Window() {
-    glfwTerminate();
+    glfwDestroyWindow(window);
 }
 
 GLFWwindow* Window::get() const {
@@ -37,8 +37,18 @@ void Window::setFramebufferSizeCallback(std::function<void(int, int)> callback) 
     userFramebufferSizeCallback = std::move(callback);
 }
 
+void Window::setRenderLoopFunc(std::function<void()> func) {
+    userRenderLoopFunc = std::move(func);
+}
+
 void Window::renderLoop() const {
-    
+    while(!glfwWindowShouldClose(window)) {
+        if (userRenderLoopFunc)
+            userRenderLoopFunc();
+        
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
 }
 
 void Window::init() {
@@ -51,13 +61,13 @@ void Window::init() {
     if (!window) {
         std::cerr << "Failed to create GLFW window\n";
         glfwTerminate();
-        throw -1;
+        std::exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))    {
         std::cerr << "Failed to initialize GLAD\n";
-        throw -1;
+        std::exit(EXIT_FAILURE);
     }
 
     glfwSetWindowUserPointer(window, this);
