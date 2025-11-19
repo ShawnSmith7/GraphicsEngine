@@ -1,23 +1,16 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
+#include "Window.h"
 #include "ShaderProgram.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
-GLFWwindow* init(unsigned int width, unsigned int height, const char *title);
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
-unsigned int screenWidth = 800;
-unsigned int screenHeight = 600;
-float aspectRatio = (float)screenWidth / screenHeight;
-
 int main() {
-    GLFWwindow* window = init(screenWidth, screenHeight, "GraphicsEngine");
-
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    Window window;
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
@@ -53,52 +46,21 @@ int main() {
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    while(!glfwWindowShouldClose(window)) {
-        processInput(window);
+    while(!glfwWindowShouldClose(window.get())) {
+        processInput(window.get());
         
-        glm::mat4 transform = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f, -1.0f, 1.0f);
+        glm::mat4 transform = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -1.0f, 1.0f);
         shaderProgram.setMat4("transform", transform);
 
         glClear(GL_COLOR_BUFFER_BIT);
         
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window.get());
         glfwPollEvents();    
     }
 
-    glfwTerminate();
     return 0;
-}
-
-GLFWwindow* init(unsigned int width, unsigned int height, const char *title) {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    GLFWwindow* window = glfwCreateWindow(width, height, title, 0, 0);
-    if (!window) {
-        std::cerr << "Failed to create GLFW window\n";
-        glfwTerminate();
-        throw -1;
-    }
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))    {
-        std::cerr << "Failed to initialize GLAD\n";
-        throw -1;
-    }
-
-    return window;
-}
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-    screenWidth = width;
-    screenHeight = height;
-    aspectRatio = (float)screenWidth / screenHeight;
-    
-    glViewport(0, 0, width, height);
 }
 
 void processInput(GLFWwindow *window) {
