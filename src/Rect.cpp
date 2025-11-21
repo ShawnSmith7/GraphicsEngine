@@ -9,8 +9,14 @@ Rect::Rect(const glm::vec2& pos, const glm::vec2& size) :
     genGeometry();
 }
 
-void Rect::draw(const ShaderProgram& shaderProgram) {
+Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) :
+    pos(pos), size(size), color(color) {
+    genGeometry();
+}
+
+void Rect::draw(const ShaderProgram& shaderProgram) const {
     shaderProgram.use();
+    shaderProgram.setVec4("color", color);
     vao.bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

@@ -18,7 +18,7 @@ int main() {
 
     ShaderProgram shaderProgram("vertex.shader", "fragment.shader");
 
-    Rect rect(glm::vec2(100.0f), glm::vec2(100.0f));
+    Rect rect(glm::vec2(0.0f), glm::vec2(1.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f));
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -27,7 +27,7 @@ int main() {
 
         glClear(GL_COLOR_BUFFER_BIT);
         
-        glm::mat4 model(1.0f);
+        glm::mat4 model = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(100.0f, 100.0f, 0.0f)), glm::vec3(100.0f, 100.0f, 1.0f));
         glm::mat4 view(1.0f);
         glm::mat4 projection = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -1.0f, 1.0f);
         glm::mat4 transform = projection * view * model;

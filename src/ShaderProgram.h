@@ -23,7 +23,8 @@ class ShaderProgram {
         void use() const;
         void unuse() const;
 
-        void setMat4(const char *name, const glm::mat4& value);
+        void setVec4(const char *name, const glm::vec4& value) const;
+        void setMat4(const char *name, const glm::mat4& value) const;
     private:
         unsigned int ID;
 
