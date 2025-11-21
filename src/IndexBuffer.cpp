@@ -7,3 +7,7 @@ void IndexBuffer::bind() const {
 void IndexBuffer::unbind() {
     Buffer::unbind(GL_ELEMENT_ARRAY_BUFFER);
 }
+
+size_t IndexBuffer::getCount() const {
+    return count;
+}

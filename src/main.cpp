@@ -1,13 +1,6 @@
-#include <glad/glad.h>
-#include <glfw/glfw3.h>
-
 #include "Window.h"
-#include "ShaderProgram.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-
 #include "Rect.h"
+#include "Line.h"
 
 void processInput(GLFWwindow *window);
 
