@@ -23,4 +23,6 @@ class Rect {
         VertexArray vao;
         VertexBuffer vbo;
         IndexBuffer ebo;
+
+        void genGeometry();
 };
