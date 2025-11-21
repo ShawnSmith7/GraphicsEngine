@@ -15,10 +15,8 @@ Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) 
 }
 
 void Rect::draw(const ShaderProgram& shaderProgram) const {
-    shaderProgram.use();
     shaderProgram.setVec4("color", color);
-    vao.bind();
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    Drawable::draw(shaderProgram);
 }
 
 const std::array<unsigned int, 6> Rect::indices = { 0, 1, 2, 2, 3, 0 };

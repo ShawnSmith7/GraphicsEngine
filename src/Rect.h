@@ -1,13 +1,8 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Drawable.h"
 
-#include "ShaderProgram.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-
-class Rect {
+class Rect : public Drawable {
     public:
         Rect();
         Rect(const glm::vec2& pos, const glm::vec2& size);
@@ -21,10 +16,6 @@ class Rect {
 
         std::array<float, 8> vertices;
         static const std::array<unsigned int, 6> indices;
-
-        VertexArray vao;
-        VertexBuffer vbo;
-        IndexBuffer ebo;
 
         void genGeometry();
 };
