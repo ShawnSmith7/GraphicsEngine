@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 4.1)
 project(GraphicsEngine LANGUAGES C CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_compile_options("/Zc:__cplusplus")
+
 add_library(glad STATIC dependencies/glad/src/glad.c)
 target_include_directories(glad PUBLIC dependencies/glad/include)
 
@@ -17,7 +23,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glfw glm)
 
-add_library(GraphicsEngineLib src/Window.cpp src/VertexArray.cpp src/VertexBuffer.cpp src/IndexBuffer.cpp src/ShaderProgram.cpp)
+add_library(GraphicsEngineLib src/Window.cpp src/ShaderProgram.cpp src/VertexArray.cpp src/Buffer.cpp src/VertexBuffer.cpp src/IndexBuffer.cpp src/Rect.cpp)
 target_include_directories(GraphicsEngineLib PUBLIC src)
 target_link_libraries(GraphicsEngineLib PUBLIC opengl32 glad glfw glm)
 

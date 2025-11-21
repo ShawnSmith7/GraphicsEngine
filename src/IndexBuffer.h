@@ -1,20 +1,21 @@
 #pragma once
 
-#include <glad/glad.h>
+#include "Buffer.h"
 
-class IndexBuffer {
+class IndexBuffer : public Buffer {
     public:
-        IndexBuffer();
-        ~IndexBuffer();
+        using Buffer::Buffer;
 
         void bind() const;
-        void unbind() const;
+        static void unbind();
 
         template<typename T, size_t N>
-        void setBufferData(const T (&data)[N], GLenum usage) {
-            bind();
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, N * sizeof(T), data, usage);
+        void setBufferData(const T (&data)[N], GLenum usage) const {
+            Buffer::setBufferData(GL_ELEMENT_ARRAY_BUFFER, data, usage);
         }
-    private:
-        unsigned int ID;
+
+        template<typename T, size_t N>
+        void setBufferData(const std::array<T, N>& data, GLenum usage) const {
+            Buffer::setBufferData(GL_ELEMENT_ARRAY_BUFFER, data, usage);
+        }
 };

@@ -7,10 +7,12 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
+#include "Rect.h"
+
 void processInput(GLFWwindow *window);
 
 int main() {
-    Window window;
+    Window window(800, 600, "GraphicsEngine");
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
@@ -48,12 +50,14 @@ int main() {
 
     window.setRenderLoopFunc([&]() {
         processInput(window.get());
-        
-        glm::mat4 transform = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -1.0f, 1.0f);
-        shaderProgram.setMat4("transform", transform);
 
         glClear(GL_COLOR_BUFFER_BIT);
         
+        glm::mat4 model(1.0f);
+        glm::mat4 view(1.0f);
+        glm::mat4 projection = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -1.0f, 1.0f);
+        glm::mat4 transform = projection * view * model;
+        shaderProgram.setMat4("transform", transform);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     });
     window.renderLoop();
