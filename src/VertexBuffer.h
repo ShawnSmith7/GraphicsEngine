@@ -18,4 +18,9 @@ class VertexBuffer : public Buffer {
         void setBufferData(const std::array<T, N>& data, GLenum usage) const {
             Buffer::setBufferData(GL_ARRAY_BUFFER, data, usage);
         }
+
+        template<typename T>
+        void setBufferData(const std::vector<T>& data, GLenum usage) const {
+            Buffer::setBufferData(GL_ARRAY_BUFFER, data, usage);
+        }
 };

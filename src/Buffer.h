@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include <array>
+#include <vector>
 
 class Buffer {
     public:
@@ -22,6 +23,12 @@ class Buffer {
         void setBufferData(GLenum target, const std::array<T, N>& data, GLenum usage) const {
             bind(target);
             glBufferData(target, N * sizeof(T), data.data(), usage);
+        }
+
+        template<typename T>
+        void setBufferData(GLenum target, const std::vector<T>& data, GLenum usage) const {
+            bind(target);
+            glBufferData(target, data.size() * sizeof(T), data.data(), usage);
         }
     private:
         unsigned int ID;

@@ -32,7 +32,8 @@ add_library(GraphicsEngineLib
     src/IndexBuffer.cpp 
     src/Drawable.cpp 
     src/Rect.cpp 
-    src/Line.cpp)
+    src/Line.cpp
+    src/Circle.cpp)
 target_include_directories(GraphicsEngineLib PUBLIC src)
 target_link_libraries(GraphicsEngineLib PUBLIC opengl32 glad glfw glm)
 

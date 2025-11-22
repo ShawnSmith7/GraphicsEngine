@@ -21,6 +21,12 @@ class IndexBuffer : public Buffer {
             Buffer::setBufferData(GL_ELEMENT_ARRAY_BUFFER, data, usage);
         }
 
+        template<typename T>
+        void setBufferData(const std::vector<T>& data, GLenum usage) {
+            count = data.size();
+            Buffer::setBufferData(GL_ELEMENT_ARRAY_BUFFER, data, usage);
+        }
+
         size_t getCount() const;
     private:
         size_t count = 0;
