@@ -1,7 +1,7 @@
 #include "Drawable.h"
 
-void Drawable::draw(const ShaderProgram& shaderProgram) const {
+void Drawable::draw(const ShaderProgram& shaderProgram, GLenum mode) const {
     shaderProgram.use();
     vao.bind();
-    glDrawElements(GL_TRIANGLES, ebo.getCount(), GL_UNSIGNED_INT, 0);
+    glDrawElements(mode, ebo.getCount(), GL_UNSIGNED_INT, 0);
 }

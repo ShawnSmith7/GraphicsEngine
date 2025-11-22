@@ -13,6 +13,8 @@ int main() {
 
     Rect rect(glm::vec2(0.0f), glm::vec2(1.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f));
 
+    Line line(glm::vec2(300.0f), glm::vec2(400.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f));
+
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     window.setRenderLoopFunc([&]() {
@@ -26,6 +28,11 @@ int main() {
         glm::mat4 transform = projection * view * model;
         shaderProgram.setMat4("transform", transform);
         rect.draw(shaderProgram);
+        
+        model = glm::mat4(1.0f);
+        transform = projection * view * model;
+        shaderProgram.setMat4("transform", transform);
+        line.draw(shaderProgram);
     });
     window.renderLoop();
 

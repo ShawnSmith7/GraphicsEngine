@@ -7,7 +7,7 @@
 
 class Drawable {
     public:
-        void draw(const ShaderProgram& shaderProgram) const;
+        void draw(const ShaderProgram& shaderProgram, GLenum mode) const;
     protected:
         VertexArray vao;
         VertexBuffer vbo;
