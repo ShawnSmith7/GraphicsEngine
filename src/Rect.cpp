@@ -24,7 +24,7 @@ void Rect::genGeometry() {
 
     glm::vec2 center = 0.5f * size;
     for (glm::vec2& vert : verts) {
-        vert = Transformer::rotate(vert + pos, angle, pos + center);
+        vert = Transformer::rotate(vert + pos - center, angle, pos);
     }
 
     vertices = Transformer::vertsToData(verts);
