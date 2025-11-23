@@ -27,6 +27,7 @@ add_library(GraphicsEngineLib
     src/Window.cpp 
     src/ShaderProgram.cpp 
     src/VertexArray.cpp 
+    src/Layout.cpp
     src/Buffer.cpp 
     src/VertexBuffer.cpp 
     src/IndexBuffer.cpp 
