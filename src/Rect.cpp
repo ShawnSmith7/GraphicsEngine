@@ -22,11 +22,7 @@ void Rect::genGeometry() {
         glm::vec2(pos.x + size.x, pos.y)
     };
 
-    for (unsigned int i = 0; i < 4; i++) {
-        verts[i] = glm::rotate(verts[i], angle);
-        vertices[2 * i] = verts[i].x;
-        vertices[2 * i + 1] = verts[i].y;
-    }
+    vertices = Transformer::vertsToData(Transformer::rotate(verts, angle));
 
     vbo.bind();
     vbo.setBufferData(vertices, GL_STATIC_DRAW);

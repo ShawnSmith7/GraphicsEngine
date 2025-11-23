@@ -1,9 +1,7 @@
 #pragma once
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/rotate_vector.hpp>
-
 #include "Drawable.h"
+#include "Transformer.h"
 
 class Rect : public Drawable {
     public:
