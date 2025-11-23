@@ -1,22 +1,15 @@
 #include "Line.h"
 
-Line::Line() {
-    genGeometry();
-}
-
-Line::Line(const glm::vec2& pos1, const glm::vec2& pos2) :
-    pos1(pos1), pos2(pos2) {
-    genGeometry();
-}
-
-Line::Line(const glm::vec2& pos1, const glm::vec2& pos2, const glm::vec4& color) :
-    pos1(pos1), pos2(pos2), color(color) {
+Line::Line(const glm::vec2& pos1, const glm::vec2& pos2, const glm::vec4& color, float width, Type type) :
+    pos1(pos1), pos2(pos2), color(color), width(width), type(type) {
     genGeometry();
 }
 
 void Line::draw(const ShaderProgram& shaderProgram) const {
+    glLineWidth(width);
     shaderProgram.setVec4("color", color);
     Drawable::draw(shaderProgram, GL_LINES);
+    glLineWidth(1);
 }
 
 const std::array<unsigned int, 2> Line::indices = { 0, 1 };

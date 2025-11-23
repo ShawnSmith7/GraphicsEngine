@@ -6,17 +6,17 @@
 
 class Circle : public Drawable {
     public:
-    Circle();
-    Circle(const glm::vec2& pos, float radius);
-    Circle(const glm::vec2& pos, float radius, const glm::vec4& color);
-    Circle(const glm::vec2& pos, float radius, const glm::vec4& color, unsigned int resolution);
+    Circle(const glm::vec2& pos = glm::vec2(0.0f), 
+        float radius = 1.0f, 
+        const glm::vec4& color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), 
+        unsigned int resolution = 64);
 
     void draw(const ShaderProgram& shaderProgram) const;
     private:
-        glm::vec2 pos = glm::vec2(0.0f);
-        float radius = 1.0f;
-        glm::vec4 color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-        unsigned int resolution = 64;
+        glm::vec2 pos;
+        float radius;
+        glm::vec4 color;
+        unsigned int resolution;
 
         std::vector<float> vertices;
         std::vector<unsigned int> indices;

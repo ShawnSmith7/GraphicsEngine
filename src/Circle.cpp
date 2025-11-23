@@ -1,19 +1,5 @@
 #include "Circle.h"
 
-Circle::Circle() {
-    genGeometry();
-}
-
-Circle::Circle(const glm::vec2& pos, float radius) :
-    pos(pos), radius(radius) {
-    genGeometry();
-}
-
-Circle::Circle(const glm::vec2& pos, float radius, const glm::vec4& color) :
-    pos(pos), radius(radius), color(color) {
-    genGeometry();
-}
-
 Circle::Circle(const glm::vec2& pos, float radius, const glm::vec4& color, unsigned int resolution) :
     pos(pos), radius(radius), color(color), resolution(resolution) {
     genGeometry();

@@ -1,14 +1,5 @@
 #include "Rect.h"
 
-Rect::Rect() {
-    genGeometry();
-}
-
-Rect::Rect(const glm::vec2& pos, const glm::vec2& size) :
-    pos(pos), size(size) {
-    genGeometry();
-}
-
 Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) :
     pos(pos), size(size), color(color) {
     genGeometry();
