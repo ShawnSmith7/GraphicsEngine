@@ -1,7 +1,7 @@
 #include "Rect.h"
 
-Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) :
-    pos(pos), size(size), color(color) {
+Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color, float angle) :
+    pos(pos), size(size), color(color), angle(angle) {
     genGeometry();
 }
 
@@ -15,12 +15,18 @@ const std::array<unsigned int, 6> Rect::indices = { 0, 1, 2, 2, 3, 0 };
 void Rect::genGeometry() {
     vao.bind();
 
-    vertices = {
-        pos.x, pos.y,
-        pos.x, pos.y + size.y,
-        pos.x + size.x, pos.y + size.y,
-        pos.x + size.x, pos.y
+    std::array<glm::vec2, 4> verts = {
+        pos,
+        glm::vec2(pos.x, pos.y + size.y),
+        pos + size,
+        glm::vec2(pos.x + size.x, pos.y)
     };
+
+    for (unsigned int i = 0; i < 4; i++) {
+        verts[i] = glm::rotate(verts[i], angle);
+        vertices[2 * i] = verts[i].x;
+        vertices[2 * i + 1] = verts[i].y;
+    }
 
     vbo.bind();
     vbo.setBufferData(vertices, GL_STATIC_DRAW);

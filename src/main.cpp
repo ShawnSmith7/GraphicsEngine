@@ -12,8 +12,8 @@ int main() {
 
     ShaderProgram shaderProgram("vertex.shader", "fragment.shader");
 
-    Rect rect(glm::vec2(0.0f), glm::vec2(1.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f));
-    Line line(glm::vec2(300.0f), glm::vec2(400.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f), 10.0f);
+    Rect rect(glm::vec2(0.0f), glm::vec2(1.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f), 1.5f);
+    Line line(glm::vec2(300.0f), glm::vec2(400.0f), glm::vec4(1.0f, 0.5f, 0.2f, 1.0f), 10.0f, Line::Type::Rect);
     Circle circle(glm::vec2(0.0f), 50.0f, glm::vec4(1.0f, 0.5f, 0.2f, 1.0f), 32);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

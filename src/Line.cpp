@@ -6,10 +6,16 @@ Line::Line(const glm::vec2& pos1, const glm::vec2& pos2, const glm::vec4& color,
 }
 
 void Line::draw(const ShaderProgram& shaderProgram) const {
-    glLineWidth(width);
     shaderProgram.setVec4("color", color);
-    Drawable::draw(shaderProgram, GL_LINES);
-    glLineWidth(1);
+    switch (type) {
+        case Type::Round:
+        case Type::Rect:
+        break;
+        case Type::Default: default:
+        glLineWidth(width);
+        Drawable::draw(shaderProgram, GL_LINES);
+        glLineWidth(1);
+    }
 }
 
 const std::array<unsigned int, 2> Line::indices = { 0, 1 };

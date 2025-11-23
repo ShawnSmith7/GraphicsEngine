@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Drawable.h"
+#include "Rect.h"
+#include "Circle.h"
 
 class Line : public Drawable {
     public:
@@ -18,6 +19,7 @@ class Line : public Drawable {
         glm::vec4 color;
         float width;
         Type type;
+        Rect rect;
 
         std::array<float, 4> vertices;
         static const std::array<unsigned int, 2> indices;
