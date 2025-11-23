@@ -16,13 +16,18 @@ void Rect::genGeometry() {
     vao.bind();
 
     std::array<glm::vec2, 4> verts = {
-        pos,
-        glm::vec2(pos.x, pos.y + size.y),
-        pos + size,
-        glm::vec2(pos.x + size.x, pos.y)
+        glm::vec2(0.0f),
+        glm::vec2(0.0f, size.y),
+        size,
+        glm::vec2(size.x, 0.0f)
     };
 
-    vertices = Transformer::vertsToData(Transformer::rotate(verts, angle));
+    glm::vec2 center = 0.5f * size;
+    for (glm::vec2& vert : verts) {
+        vert = Transformer::rotate(vert + pos, angle, pos + center);
+    }
+
+    vertices = Transformer::vertsToData(verts);
 
     vbo.bind();
     vbo.setBufferData(vertices, GL_STATIC_DRAW);

@@ -17,11 +17,5 @@ namespace Transformer {
             return result;
         }
 
-        template<size_t N>
-        std::array<glm::vec2, N> rotate(const std::array<glm::vec2, N>& vertices, float angle) {
-            std::array<glm::vec2, N> result;
-            for (unsigned int i = 0; i < N; i++)
-                result[i] = glm::rotate(vertices[i], angle);
-            return result;
-        }
+        glm::vec2 rotate(const glm::vec2& vertex, float angle, const glm::vec2& axis);
 }
