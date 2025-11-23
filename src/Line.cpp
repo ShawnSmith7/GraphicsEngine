@@ -34,8 +34,8 @@ void Line::genGeometry() {
     ebo.bind();
     ebo.setBufferData(indices, GL_STATIC_DRAW);
 
-    vao.enableAttribute(0);
-    vao.setAttributePointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    layout.set({{0, 2, GL_FLOAT, false, 2 * sizeof(float), 0}});
+    layout.apply();
 
     vao.unbind();
 }

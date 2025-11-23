@@ -2,6 +2,7 @@
 
 #include "ShaderProgram.h"
 #include "VertexArray.h"
+#include "Layout.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
@@ -10,6 +11,7 @@ class Drawable {
         void draw(const ShaderProgram& shaderProgram, GLenum mode) const;
     protected:
         VertexArray vao;
+        Layout layout;
         VertexBuffer vbo;
         IndexBuffer ebo;
 };
