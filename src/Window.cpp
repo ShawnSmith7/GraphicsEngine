@@ -1,9 +1,5 @@
 #include "Window.h"
 
-Window::Window() {
-    init();
-}
-
 Window::Window(unsigned int width, unsigned int height, const char *title) :
     width(width), height(height), title(title) {
     init();

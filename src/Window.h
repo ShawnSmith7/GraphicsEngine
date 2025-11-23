@@ -8,8 +8,9 @@
 
 class Window {
     public:
-        Window();
-        Window(unsigned int width, unsigned int height, const char *title);
+        Window(unsigned int width = 800, 
+            unsigned int height = 600, 
+            const char *title = "Window");
         ~Window();
 
         GLFWwindow* get() const;
@@ -24,9 +25,9 @@ class Window {
         void renderLoop() const;
     private:
         GLFWwindow* window;
-        unsigned int width = 800;
-        unsigned int height = 600;
-        const char *title = "Window";
+        unsigned int width;
+        unsigned int height;
+        const char *title;
 
         std::function<void(int, int)> userFramebufferSizeCallback;
         std::function<void()> userRenderLoopFunc;
