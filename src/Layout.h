@@ -15,7 +15,6 @@ struct AttributePointer {
 
 class Layout {
     public:
-
         Layout();
         Layout(const std::vector<AttributePointer>& layout);
 

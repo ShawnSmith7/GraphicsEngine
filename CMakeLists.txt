@@ -32,7 +32,6 @@ add_library(GraphicsEngineLib
     src/VertexBuffer.cpp 
     src/IndexBuffer.cpp 
     src/Drawable.cpp 
-    src/Transformer.cpp
     src/Rect.cpp 
     src/Line.cpp
     src/Circle.cpp)

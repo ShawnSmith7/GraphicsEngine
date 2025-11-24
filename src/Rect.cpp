@@ -1,7 +1,7 @@
 #include "Rect.h"
 
-Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color, float angle) :
-    pos(pos), size(size), color(color), angle(angle) {
+Rect::Rect(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) :
+    pos(pos), size(size), color(color) {
     genGeometry();
 }
 
@@ -22,12 +22,14 @@ void Rect::genGeometry() {
         glm::vec2(size.x, 0.0f)
     };
 
-    glm::vec2 center = 0.5f * size;
+    glm::vec2 translate = pos - 0.5f * size;
     for (glm::vec2& vert : verts) {
-        vert = Transformer::rotate(vert + pos - center, angle, pos);
+        vert += translate;
     }
 
-    vertices = Transformer::vertsToData(verts);
+    
+    AttributePointer attribute = {0, 2, GL_FLOAT, false, 2 * sizeof(float), 0};
+    vertsToData(vertices, verts, attribute);
 
     vbo.bind();
     vbo.setBufferData(vertices, GL_STATIC_DRAW);
@@ -35,7 +37,7 @@ void Rect::genGeometry() {
     ebo.bind();
     ebo.setBufferData(indices, GL_STATIC_DRAW);
 
-    layout.set({{0, 2, GL_FLOAT, false, 2 * sizeof(float), 0}});
+    layout.set({attribute});
     layout.apply();
 
     vao.unbind();
