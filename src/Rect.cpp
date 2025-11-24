@@ -15,19 +15,15 @@ const std::array<unsigned int, 6> Rect::indices = { 0, 1, 2, 2, 3, 0 };
 void Rect::genGeometry() {
     vao.bind();
 
-    std::array<glm::vec2, 4> verts = {
+    static const std::array<glm::vec2, 4> unitRect = {
         glm::vec2(0.0f),
-        glm::vec2(0.0f, size.y),
-        size,
-        glm::vec2(size.x, 0.0f)
+        glm::vec2(0.0f, 1.0f),
+        glm::vec2(1.0f),
+        glm::vec2(1.0f, 0.0f)
     };
 
-    glm::vec2 translate = pos - 0.5f * size;
-    for (glm::vec2& vert : verts) {
-        vert += translate;
-    }
+    std::array<glm::vec2, 4> verts = transform(unitRect, size, pos - 0.5f * size, 1.0f, 0.5f * size);
 
-    
     AttributePointer attribute = {0, 2, GL_FLOAT, false, 2 * sizeof(float), 0};
     vertsToData(vertices, verts, attribute);
 
